@@ -27,7 +27,7 @@ const contactSchema = new mongoose.Schema({
         type: String,
         required: [true, "state is must required"]
     },
-})
+},{timestamps:true})
 
 const contact = mongoose.model("contact" , contactSchema)
 
