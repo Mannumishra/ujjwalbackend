@@ -147,18 +147,19 @@ const updateProduct = async (req, res) => {
     try {
         let data = await product.findOne({ _id: req.params._id })
         if (data) {
+            console.log(data)
             data.categoryname = req.body.categoryname ?? data.categoryname,
             data.productname = req.body.productname ?? data.productname,
             data.details = req.body.details ?? data.details,
             data.subcategoryName = req.body.subcategoryName ?? data.subcategoryName,
-            data.tableData = req.body.tableData ?? data.tableData
+            data.tableData = req.body.productDetails ?? data.tableData
             if (req.files) {
                 if (req.files.image1) {
                     const olImage = data.image1.split("/").pop().split(".")[0]
                     try {
                         await cloudnary.uploader.destroy(olImage)
                     } catch (error) { }
-                    const ulr = uploadImage(req.files.image1[0].path)
+                    const ulr =await uploadImage(req.files.image1[0].path)
                     data.image1 = ulr
                 }
                 if (req.files.image2) {
@@ -166,7 +167,7 @@ const updateProduct = async (req, res) => {
                     try {
                         await cloudnary.uploader.destroy(oldImage)
                     } catch (error) { }
-                    const url = uploadImage(req.files.image2[0].path)
+                    const url = await uploadImage(req.files.image2[0].path)
                     data.image2 = url
                 }
                 if (req.files.image3) {
@@ -187,6 +188,7 @@ const updateProduct = async (req, res) => {
                 }
             }
             await data.save()
+            console.log("save data" ,data)
             try {
                 fs.unlinkSync(req.files.image1[0].path)
             } catch (error) { }
