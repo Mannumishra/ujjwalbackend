@@ -1,23 +1,8 @@
 const { config } = require("dotenv")
 const productCategory = require("../Model/CategoryModel")
 const fs = require("fs")
-const cloudinary = require('cloudinary').v2
+const { uploadImage } = require("../Cloudnary/Cloudnary")
 
-cloudinary.config({
-    cloud_name: "dsimn9z1r",
-    api_key: "998919427255124",
-    api_secret: "h-PsVovtSvzakWubj1X8sXJEtp4"
-})
-
-
-const uploadImage = async (file) => {
-    try {
-        const uploadFileData = await cloudinary.uploader.upload(file)
-        return uploadFileData.secure_url
-    } catch (error) {
-        console.log(error)
-    }
-}
 
 const createRecord = async (req, res) => {
     try {
@@ -31,11 +16,13 @@ const createRecord = async (req, res) => {
         else {
             const data = new productCategory({ categoryname })
             if (req.file) {
-                // console.log(req.file.path)
                 const url = await uploadImage(req.file.path)
                 data.image = url
             }
             await data.save()
+            try {
+                fs.unlinkSync(req.file.path)
+            } catch (error) { }
             res.status(200).json({
                 success: true,
                 mess: "New Category created",
@@ -112,6 +99,9 @@ const updateRecord = async (req, res) => {
                 data.image = url
             }
             await data.save()
+            try {
+                fs.unlinkSync(req.file.path)
+            } catch (error) {}
             res.status(200).json({
                 success: true,
                 mess: "Category Updated Successfully",
@@ -159,5 +149,5 @@ module.exports = {
     getRecord: getRecord,
     getSingleRecord: getSingleRecord,
     updateRecord: updateRecord,
-    deleteRecord:deleteRecord
+    deleteRecord: deleteRecord
 }

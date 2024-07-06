@@ -2,15 +2,16 @@ const contact = require("../Model/ContactModel")
 
 const createRecord = async (req, res) => {
     try {
-        const { name, email, phone, message, address, state } = req.body
-        if (!name || !email || !phone || !message || !address || !state) {
+        const { name, email, phone, message, address, companyname } = req.body
+        console.log(req.body ,'i am hit')
+        if (!name || !email || !phone || !message || !address || !companyname) {
             return res.status(403).json({
                 success: false,
                 mess: "Please fill all fields"
             })
         }
         else {
-            const data = new contact({ name, email, phone, address, message, state })
+            const data = new contact({ name, email, phone, address, message, companyname })
             await data.save()
             res.status(200).json({
                 success: true,

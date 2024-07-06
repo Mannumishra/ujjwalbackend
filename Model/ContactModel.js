@@ -23,7 +23,7 @@ const contactSchema = new mongoose.Schema({
         type: String,
         required: [true, "message is must required"]
     },
-    state: {
+    companyname: {
         type: String,
         required: [true, "state is must required"]
     },

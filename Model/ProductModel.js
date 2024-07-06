@@ -5,85 +5,17 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, "CategoryName is must Required"]
     },
-    machinetype: {
-        type: String,
-        required: [true, "Name is must Required"]
+    subcategoryName:{
+        type:String,
+        required:[true,"Subcategory is must required"]
     },
-    invter: {
-        type: String,
-        required: [true, "Name is must Required"]
+    details:{
+        type:String,
+        required:[true,"Details is must required"]
     },
-     inteldia: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-     outletdia: {
-        type: String,
-        required: [true, "Name is must Required"]
-    }, 
-    maxdia: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-     linespeed: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-     bodysctru: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-     drawing: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-     slipratio: {
-        type: String,
-        required: [true, "Name is must Required"]
-    }, 
-    upmotor: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-    fixspeed: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-    transtmission: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-    lubrication: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-    annealingvoltage: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-    annealingcurrent: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-    upbobbinsize: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-    traversingtype: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-    tensioncontrol: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-    brake: {
-        type: String,
-        required: [true, "Name is must Required"]
-    },
-    weight: {
-        type: String,
-        required: [true, "Name is must Required"]
+    productname:{
+        type:String,
+        required:[true,"Productname is must required"]
     },
     image1:{
         type:String,
@@ -100,6 +32,9 @@ const productSchema = new mongoose.Schema({
     image4:{
         type:String,
         required:[true,"Image is must required"]
+    },
+    tableData:{
+        type:String
     }
 })
 

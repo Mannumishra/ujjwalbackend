@@ -1,19 +1,9 @@
 const productRouter = require("express").Router()
-const multer = require("multer")
 const { createRecord, getproduct, getSinglrproduct, deleteRecord, updateProduct } = require("../Controllar/ProductControllar")
+const uploader = require("../Multer/Multer")
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "./Public/Product")
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + file.originalname)
-    }
-})
 
-const upload = multer({ storage: storage })
-
-productRouter.post("/product", upload.fields([
+productRouter.post("/product", uploader.fields([
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
     { name: "image3", maxCount: 1 },
@@ -22,7 +12,7 @@ productRouter.post("/product", upload.fields([
 productRouter.get("/product", getproduct)
 productRouter.get("/product/:_id", getSinglrproduct)
 productRouter.delete("/product/:_id", deleteRecord)
-productRouter.put("/product/:_id", upload.fields([
+productRouter.put("/product/:_id", uploader.fields([
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
     { name: "image3", maxCount: 1 },
