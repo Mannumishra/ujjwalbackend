@@ -23,15 +23,15 @@ const productSchema = new mongoose.Schema({
     },
     image2:{
         type:String,
-        required:[true,"Image is must required"]
+        // required:[true,"Image is must required"]
     },
     image3:{
         type:String,
-        required:[true,"Image is must required"]
+        // required:[true,"Image is must required"]
     },
     image4:{
         type:String,
-        required:[true,"Image is must required"]
+        // required:[true,"Image is must required"]
     },
     tableData:{
         type:String
