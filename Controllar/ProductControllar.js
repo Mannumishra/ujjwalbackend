@@ -1,11 +1,11 @@
-const { uploadImage } = require("../Cloudnary/Cloudnary")
+const { uploadImage, deleteImage } = require("../Cloudnary/Cloudnary")
 const product = require("../Model/ProductModel")
 const fs = require("fs")
 
 const createRecord = async (req, res) => {
     try {
         console.log(req.body)
-        const { productDetails, categoryname, subcategoryName, details, productname } = req.body
+        const { tableData, categoryname, subcategoryName, details, productname } = req.body
         if (!categoryname || !subcategoryName || !details || !productname) {
             return res.status(403).json({
                 success: false,
@@ -13,7 +13,7 @@ const createRecord = async (req, res) => {
             })
         }
         else {
-            const data = new product({ categoryname, subcategoryName, details, productname, tableData: productDetails })
+            const data = new product({ categoryname, subcategoryName, details, productname, tableData })
             if (req.files) {
                 if (req.files.image1) {
                     const url = await uploadImage(req.files.image1[0].path)
@@ -111,116 +111,139 @@ const getSinglrproduct = async (req, res) => {
 
 const deleteRecord = async (req, res) => {
     try {
-        let data = await product.findOne({ _id: req.params._id })
+        let data = await product.findOne({ _id: req.params._id });
         if (data) {
-            const oldimage1 = data.image1.split("/").pop().split(".")[0]
-            try {
-                await cloudnary.uploader.destroy(oldimage1)
-            } catch (error) { }
-            const oldimage2 = data.image2.split("/").pop().split(".")[0]
-            try {
-                await cloudnary.uploader.destroy(oldimage2)
-            } catch (error) { }
-            const oldimage3 = data.image3.split("/").pop().split(".")[0]
-            try {
-                await cloudnary.uploader.destroy(oldimage3)
-            } catch (error) { }
-            const oldimage4 = data.image4.split("/").pop().split(".")[0]
-            try {
-                await cloudnary.uploader.destroy(oldimage4)
-            } catch (error) { }
-            await data.deleteOne()
+            if (data.image1) {
+                const oldimage1 = data.image1.split("/").pop().split(".")[0];
+                try {
+                  await deleteImage(oldimage1);
+                } catch (error) {
+                    console.error('Error deleting image1:', error);
+                }
+            }
+            if (data.image2) {
+                const oldimage2 = data.image2.split("/").pop().split(".")[0];
+                try {
+                  await deleteImage(oldimage2);
+                } catch (error) {
+                    console.error('Error deleting image2:', error);
+                }
+            }
+            if (data.image3) {
+                const oldimage3 = data.image3.split("/").pop().split(".")[0];
+                try {
+                  await deleteImage(oldimage3);
+                } catch (error) {
+                    console.error('Error deleting image3:', error);
+                }
+            }
+            if (data.image4) {
+                const oldimage4 = data.image4.split("/").pop().split(".")[0];
+                try {
+                  await deleteImage(oldimage4);
+                } catch (error) {
+                    console.error('Error deleting image4:', error);
+                }
+            }
+            await data.deleteOne();
             res.status(200).json({
                 success: true,
                 mess: "Record Deleted",
-            })
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                mess: "Record Not Found",
+            });
         }
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             success: false,
-            mess: "Internal Server Error"
-        })
+            mess: "Internal Server Error",
+        });
     }
-}
+};
+
 
 const updateProduct = async (req, res) => {
     try {
-        let data = await product.findOne({ _id: req.params._id })
+        let data = await product.findOne({ _id: req.params._id });
         if (data) {
-            console.log(data)
-            data.categoryname = req.body.categoryname ?? data.categoryname,
-            data.productname = req.body.productname ?? data.productname,
-            data.details = req.body.details ?? data.details,
-            data.subcategoryName = req.body.subcategoryName ?? data.subcategoryName,
-            data.tableData = req.body.productDetails ?? data.tableData
+            console.log(data);
+            data.categoryname = req.body.categoryname ?? data.categoryname;
+            data.productname = req.body.productname ?? data.productname;
+            data.details = req.body.details ?? data.details;
+            data.subcategoryName = req.body.subcategoryName ?? data.subcategoryName;
+            data.tableData = req.body.tableData ?? data.tableData;
             if (req.files) {
                 if (req.files.image1) {
-                    const olImage = data.image1.split("/").pop().split(".")[0]
+                    const olImage = data.image1.split("/").pop().split(".")[0];
                     try {
-                        await cloudnary.uploader.destroy(olImage)
+                      await deleteImage(olImage);
                     } catch (error) { }
-                    const ulr =await uploadImage(req.files.image1[0].path)
-                    data.image1 = ulr
+                    const ulr = await uploadImage(req.files.image1[0].path);
+                    data.image1 = ulr;
                 }
                 if (req.files.image2) {
-                    const oldImage = data.image2.split("/").pop().split(".")[0]
+                    const oldImage = data.image2.split("/").pop().split(".")[0];
                     try {
-                        await cloudnary.uploader.destroy(oldImage)
+                      await deleteImage(oldImage);
                     } catch (error) { }
-                    const url = await uploadImage(req.files.image2[0].path)
-                    data.image2 = url
+                    const url = await uploadImage(req.files.image2[0].path);
+                    data.image2 = url;
                 }
                 if (req.files.image3) {
-                    const oldImage = data.image3.split("/").pop().split(".")[0]
+                    const oldImage = data.image3.split("/").pop().split(".")[0];
                     try {
-                        await cloudnary.uploader.destroy(oldImage)
+                      await deleteImage(oldImage);
                     } catch (error) { }
-                    const url = uploadImage(req.files.image3[0].path)
-                    data.image3 = url
+                    const url = await uploadImage(req.files.image3[0].path);
+                    data.image3 = url;
                 }
                 if (req.files.image4) {
-                    const oldImage = data.image4.split("/").pop().split(".")[0]
+                    const oldImage = data.image4.split("/").pop().split(".")[0];
                     try {
-                        await cloudnary.uploader.destroy(oldImage)
+                      await deleteImage(oldImage);
                     } catch (error) { }
-                    const url = uploadImage(req.files.image4[0].path)
-                    data.image4 = url
+                    const url = await uploadImage(req.files.image4[0].path);
+                    data.image4 = url;
                 }
             }
-            await data.save()
-            console.log("save data" ,data)
+            await data.save();
+            console.log("save data", data);
             try {
-                fs.unlinkSync(req.files.image1[0].path)
+                if (req.files.image1) fs.unlinkSync(req.files.image1[0].path);
             } catch (error) { }
             try {
-                fs.unlinkSync(req.files.image2[0].path)
+                if (req.files.image2) fs.unlinkSync(req.files.image2[0].path);
             } catch (error) { }
             try {
-                fs.unlinkSync(req.files.image3[0].path)
+                if (req.files.image3) fs.unlinkSync(req.files.image3[0].path);
             } catch (error) { }
             try {
-                fs.unlinkSync(req.files.image4[0].path)
+                if (req.files.image4) fs.unlinkSync(req.files.image4[0].path);
             } catch (error) { }
             res.status(200).json({
                 success: true,
                 mess: "Record updated successfully",
                 data: data
-            })
-        }
-        else {
+            });
+        } else {
             return res.status(403).json({
                 success: false,
                 mess: "Record Not found"
-            })
+            });
         }
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(500).json({
             success: true,
             mess: "Internal Server Error"
-        })
+        });
     }
-}
+};
+
 
 module.exports = {
     createRecord: createRecord,

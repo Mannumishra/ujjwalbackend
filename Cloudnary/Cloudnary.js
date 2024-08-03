@@ -16,6 +16,16 @@ const uploadImage = async (file) => {
     }
 }
 
+const deleteImage = async (file) => {
+    try {
+         await cloudinary.uploader.destroy(file)
+         console.log("Image Delete Successfully")
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
-    uploadImage:uploadImage
+    uploadImage:uploadImage,
+    deleteImage:deleteImage
 }
