@@ -16,19 +16,19 @@ const createRecord = async (req, res) => {
             const data = new product({ categoryname, subcategoryName, details, productname, tableData })
             if (req.files) {
                 if (req.files.image1) {
-                    const url = await uploadImage(req.files.image1[0].path)
+                    const url = await uploadImage(req.files.image1[0].path, "Assorts")
                     data.image1 = url
                 }
                 if (req.files.image2) {
-                    const url = await uploadImage(req.files.image2[0].path)
+                    const url = await uploadImage(req.files.image2[0].path, "Assorts")
                     data.image2 = url
                 }
                 if (req.files.image3) {
-                    const url = await uploadImage(req.files.image3[0].path)
+                    const url = await uploadImage(req.files.image3[0].path, "Assorts")
                     data.image3 = url
                 }
                 if (req.files.image4) {
-                    const url = await uploadImage(req.files.image4[0].path)
+                    const url = await uploadImage(req.files.image4[0].path, "Assorts")
                     data.image4 = url
                 }
             }
@@ -116,7 +116,7 @@ const deleteRecord = async (req, res) => {
             if (data.image1) {
                 const oldimage1 = data.image1.split("/").pop().split(".")[0];
                 try {
-                  await deleteImage(oldimage1);
+                    await deleteImage(oldimage1);
                 } catch (error) {
                     console.error('Error deleting image1:', error);
                 }
@@ -124,7 +124,7 @@ const deleteRecord = async (req, res) => {
             if (data.image2) {
                 const oldimage2 = data.image2.split("/").pop().split(".")[0];
                 try {
-                  await deleteImage(oldimage2);
+                    await deleteImage(oldimage2);
                 } catch (error) {
                     console.error('Error deleting image2:', error);
                 }
@@ -132,7 +132,7 @@ const deleteRecord = async (req, res) => {
             if (data.image3) {
                 const oldimage3 = data.image3.split("/").pop().split(".")[0];
                 try {
-                  await deleteImage(oldimage3);
+                    await deleteImage(oldimage3);
                 } catch (error) {
                     console.error('Error deleting image3:', error);
                 }
@@ -140,7 +140,7 @@ const deleteRecord = async (req, res) => {
             if (data.image4) {
                 const oldimage4 = data.image4.split("/").pop().split(".")[0];
                 try {
-                  await deleteImage(oldimage4);
+                    await deleteImage(oldimage4);
                 } catch (error) {
                     console.error('Error deleting image4:', error);
                 }
@@ -180,33 +180,33 @@ const updateProduct = async (req, res) => {
                 if (req.files.image1) {
                     const olImage = data.image1.split("/").pop().split(".")[0];
                     try {
-                      await deleteImage(olImage);
+                        await deleteImage(olImage);
                     } catch (error) { }
-                    const ulr = await uploadImage(req.files.image1[0].path);
+                    const ulr = await uploadImage(req.files.image1[0].path, "Assorts");
                     data.image1 = ulr;
                 }
                 if (req.files.image2) {
                     const oldImage = data.image2.split("/").pop().split(".")[0];
                     try {
-                      await deleteImage(oldImage);
+                        await deleteImage(oldImage);
                     } catch (error) { }
-                    const url = await uploadImage(req.files.image2[0].path);
+                    const url = await uploadImage(req.files.image2[0].path, "Assorts");
                     data.image2 = url;
                 }
                 if (req.files.image3) {
                     const oldImage = data.image3.split("/").pop().split(".")[0];
                     try {
-                      await deleteImage(oldImage);
+                        await deleteImage(oldImage);
                     } catch (error) { }
-                    const url = await uploadImage(req.files.image3[0].path);
+                    const url = await uploadImage(req.files.image3[0].path, "Assorts");
                     data.image3 = url;
                 }
                 if (req.files.image4) {
                     const oldImage = data.image4.split("/").pop().split(".")[0];
                     try {
-                      await deleteImage(oldImage);
+                        await deleteImage(oldImage);
                     } catch (error) { }
-                    const url = await uploadImage(req.files.image4[0].path);
+                    const url = await uploadImage(req.files.image4[0].path, "Assorts");
                     data.image4 = url;
                 }
             }

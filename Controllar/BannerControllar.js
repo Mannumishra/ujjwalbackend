@@ -12,7 +12,7 @@ const createBanner = async (req, res) => {
             })
         }
         else {
-            const imgurl = await uploadImage(req.file.path);
+            const imgurl = await uploadImage(req.file.path ,"Assorts");
             const data = new banner({ image : imgurl })
             await data.save()
             try {
@@ -117,7 +117,7 @@ const updateBanner = async(req,res)=>{
         let data = await banner.findOne({_id:req.params._id})
         if(data){
             if(req.file){
-               const imgurl =  await uploadImage(req.file.path)
+               const imgurl =  await uploadImage(req.file.path ,"Assorts")
                data.image = imgurl
                await data.save()
                try {

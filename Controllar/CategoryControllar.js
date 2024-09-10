@@ -16,7 +16,7 @@ const createRecord = async (req, res) => {
         else {
             const data = new productCategory({ categoryname })
             if (req.file) {
-                const url = await uploadImage(req.file.path)
+                const url = await uploadImage(req.file.path ,"Assorts")
                 data.image = url
             }
             await data.save()
@@ -95,7 +95,7 @@ const updateRecord = async (req, res) => {
                 try {
                     await cloudinary.uploader.destroy(oldImage)
                 } catch (error) { }
-                const url = await uploadImage(req.file.path)
+                const url = await uploadImage(req.file.path ,"Assorts")
                 data.image = url
             }
             await data.save()
